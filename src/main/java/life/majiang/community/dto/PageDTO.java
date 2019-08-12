@@ -15,38 +15,33 @@ public class PageDTO {
     private boolean showEndPage;
     private Integer page;
     private List<Integer> pages;
+    private Integer totalpage;
+
 
 
     //用来展示他有多少页可以展示
 
     /**
      *
-     * @param count 数据库中总数据数
+     * @param
+
      * @param page
-     * @param size 每一页要显示的数据数
-     *             total：总数
+
      */
-    public void setPagination(Integer count, Integer page, Integer size) {
-        Integer totalPage;
-        //计算出总共需要展示多少页
-       if (count% size==0){
-           totalPage = count/size;
-       }else {
-           totalPage = count/size+1;
-       }
+    public void setPagination(Integer totalPage, Integer page) {
+
+        this.totalpage = totalPage;
         pages=new ArrayList<>();
+        this.page=page;
        pages.add(page);
-       for (int i=1;i<=totalPage;i++){
+       for (int i=1;i<=3;i++){
            if (page-i>0){
-               pages.add(page-i,0);
+               pages.add(0,page-i);
            }
            if (page+i<=totalPage){
                pages.add(page+i);
            }
        }
-
-
-
         //是否展示上一页
        if (page==1){
            showPrevious=false;
