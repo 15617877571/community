@@ -46,4 +46,53 @@ public class QuestionService {
         pageDTO.setTotalpage(totalPage);
         return pageDTO;
     }
+
+    public PageDTO list(Integer userId, Integer page, Integer size) {
+        System.out.println("-============="+userId);
+        Integer offset = size * (page - 1);//计算sql语句limit后边的值
+        List<Question> questionList = questionMapper.findAllByUserID(userId,offset, size);
+        PageDTO pageDTO = new PageDTO();
+        List<QuestionDTO> questionDTOList = new ArrayList<>();
+        for (Question question : questionList) {//用creator字段去查找user表中的数据
+            User user = userMapper.findById(question.getCreator());
+            QuestionDTO questionDTO = new QuestionDTO();
+            BeanUtils.copyProperties(question, questionDTO);//工具类很强大，数据快速放到另外一个链表里边
+            questionDTO.setUser(user);
+            questionDTOList.add(questionDTO);
+        }
+        Integer count = questionMapper.countByUserID(userId);//获取数据数量用于页面计算显示
+        Integer totalPage;
+        if (count % size == 0) { //计算出总共需要展示多少页
+            totalPage = count / size;
+        } else {
+            totalPage = count / size + 1;
+        }
+        pageDTO.setPagination(totalPage, page);
+        pageDTO.setQuestions(questionDTOList);
+        pageDTO.setTotalpage(totalPage);
+        return pageDTO;
+    }
+
+    public QuestionDTO getById(Integer id) {
+        Question question = questionMapper.getById(id);
+        User user = userMapper.findById(question.getCreator());
+        QuestionDTO questionDTO = new QuestionDTO();
+        questionDTO.setUser(user);
+        BeanUtils.copyProperties(question, questionDTO);
+        return questionDTO;
+
+    }
+
+    public void createOrUpdate(Question question) {
+        if (question.getId()==null){
+            //创建
+            question.setGmtCreate(System.currentTimeMillis());
+            question.setGmtModified(question.getGmtCreate());
+            questionMapper.create(question);
+        }else {
+            //更新
+            question.setGmtModified(question.getGmtCreate());
+            questionMapper.update(question);
+        }
+    }
 }
