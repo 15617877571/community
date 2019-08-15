@@ -3,6 +3,8 @@ package life.majiang.community.service;
 
 import life.majiang.community.dto.PageDTO;
 import life.majiang.community.dto.QuestionDTO;
+import life.majiang.community.exception.CustomizeErrorCode;
+import life.majiang.community.exception.CustomizeException;
 import life.majiang.community.mapper.QuestionMapper;
 import life.majiang.community.mapper.UserMapper;
 import life.majiang.community.model.Question;
@@ -75,6 +77,10 @@ public class QuestionService {
 
     public QuestionDTO getById(Integer id) {
         Question question = questionMapper.getById(id);
+        if (question == null){
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+        }
+
         User user = userMapper.findById(question.getCreator());
         QuestionDTO questionDTO = new QuestionDTO();
         questionDTO.setUser(user);
@@ -94,5 +100,11 @@ public class QuestionService {
             question.setGmtModified(question.getGmtCreate());
             questionMapper.update(question);
         }
+    }
+
+    public void incView(Integer id) {
+
+        //更新数
+        questionMapper.updateView(id);
     }
 }
