@@ -35,7 +35,7 @@ public class Comment {
      *
      * @mbg.generated Fri Jun 14 08:00:35 CST 2019
      */
-    private Long commentator;
+    private long commentator;
 
     /**
      *
@@ -162,7 +162,7 @@ public class Comment {
      *
      * @mbg.generated Fri Jun 14 08:00:35 CST 2019
      */
-    public Long getCommentator() {
+    public long getCommentator() {
         return commentator;
     }
 
@@ -174,7 +174,7 @@ public class Comment {
      *
      * @mbg.generated Fri Jun 14 08:00:35 CST 2019
      */
-    public void setCommentator(Long commentator) {
+    public void setCommentator(long commentator) {
         this.commentator = commentator;
     }
 
