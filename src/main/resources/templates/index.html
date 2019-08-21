@@ -9,8 +9,19 @@
     <link rel="stylesheet" href="css/community.css">
     <script src="js/bootstrap.min.js"></script>
 
+    <script type="application/javascript">
+        window.onload = function () {
 
+            var closable = window.localStorage.getItem("closable");
+            if (closable == "true") {
+                window.close();
+                window.localStorage.removeItem("closable");
+            }
+
+        }
+    </script>
 </head>
+<script></script>
 <body>
 <div th:insert="~{navigation :: nav}"></div>
 <div class="container-fluid main">
@@ -27,7 +38,7 @@
                     </a>
                 </div>
                 <div class="media-body">
-                    <h4 class="media-heading " >
+                    <h4 class="media-heading ">
                         <a th:href="@{'/question/'+${question.id}}" th:text="${question.title}"></a>
                     </h4>
                     <span th:text="${question.description}"></span><br>
@@ -49,17 +60,18 @@
                         </a>
                     </li>
                     <li th:each="page: ${pagination.pages}" th:class="${pagination.page==page}? 'active' : ''">
-                        <a th:href="@{/(page=${page})}"  th:text="${page}"></a></li>
+                        <a th:href="@{/(page=${page})}" th:text="${page}"></a></li>
                     <!--展示后边的=========================-->
                     <li th:if="${pagination.showNext}">
                         <a th:href="@{/(page=${pagination.page+1})}" aria-label="Previous">
                             <span aria-hidden="true">&gt;</span>
                         </a>
-                    </li><li th:if="${pagination.showEndPage}">
-                    <a th:href="@{/(page=${pagination.totalpage})}"  aria-label="Previous">
-                        <span aria-hidden="true">&gt;&gt;</span>
-                    </a>
-                </li>
+                    </li>
+                    <li th:if="${pagination.showEndPage}">
+                        <a th:href="@{/(page=${pagination.totalpage})}" aria-label="Previous">
+                            <span aria-hidden="true">&gt;&gt;</span>
+                        </a>
+                    </li>
                 </ul>
             </nav>
         </div>

@@ -49,7 +49,7 @@ public class QuestionService {
         return pageDTO;
     }
 
-    public PageDTO list(Integer userId, Integer page, Integer size) {
+    public PageDTO list(Long userId, Integer page, Integer size) {
         System.out.println("-============="+userId);
         Integer offset = size * (page - 1);//计算sql语句limit后边的值
         List<Question> questionList = questionMapper.findAllByUserID(userId,offset, size);
@@ -75,7 +75,7 @@ public class QuestionService {
         return pageDTO;
     }
 
-    public QuestionDTO getById(Integer id) {
+    public QuestionDTO getById(Long id) {
         Question question = questionMapper.getById(id);
         if (question == null){
             throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
@@ -105,7 +105,7 @@ public class QuestionService {
         }
     }
 
-    public void incView(Integer id) {
+    public void incView(Long id) {
 
         //更新数
         questionMapper.updateView(id);

@@ -20,9 +20,9 @@ public interface QuestionMapper {
     Integer count();
 
     @Select("select count(1) from question where creator=#{userId}")
-    Integer countByUserID(@Param("userId") Integer userId);
+    Integer countByUserID(@Param("userId") Long userId);
     @Select("select * from question where creator = #{userId} limit #{offset},#{size}")
-    List<Question> findAllByUserID(@Param("userId") Integer userId,@Param("offset") Integer offset,@Param("size") Integer size);
+    List<Question> findAllByUserID(@Param("userId") Long userId,@Param("offset") Integer offset,@Param("size") Integer size);
     @Select("select * from question where id=#{id}")
     Question getById(@Param("id")long id);
     @Update("update question set title=#{title},description=#{description},gmt_modified=#{gmtModified},tag=#{tag} where id = #{id}")
@@ -30,7 +30,7 @@ public interface QuestionMapper {
 
     //更新浏览数
     @Update("update question set view_count=view_count+1 where id = #{id}")
-    void updateView(@Param("id")Integer id);
+    void updateView(@Param("id")Long id);
     @Update("update question set COMMENT_COUNT=COMMENT_COUNT+#{commentCount} where id = #{id}")
     int incCommentCount(Question question);
 }
